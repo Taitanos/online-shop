@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 export type RatingType = {
     rate: number
@@ -23,6 +24,12 @@ function BestSellers() {
 
     const [products, setProducts] = useState<ProductType[]>([])
 
+    let navigate = useNavigate();
+
+    const showMoreHandler = (id:number)=> {
+        navigate('product/' + id);
+    }
+
     useEffect(() => {
         axios.get("https://masterclass.kimitsu.it-incubator.ru/api/products")
             .then((res) => {
@@ -42,7 +49,7 @@ function BestSellers() {
                                 <img src={pr.image} alt="img"/>
                                 <h4>{pr.title}</h4>
                                 <p className="price">${pr.price}</p>
-                                <button>Show more</button>
+                                <button onClick={() => showMoreHandler(pr.id)}>Show more</button>
                             </div>
                         )
                     })
